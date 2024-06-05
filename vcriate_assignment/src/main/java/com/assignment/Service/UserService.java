@@ -9,7 +9,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 public class UserService implements OAuth2User, UserDetails {
 	
-	private OAuth2User auth2User;
+	private final OAuth2User auth2User;
 	
 	public UserService(OAuth2User auth2User) {
         this.auth2User = auth2User;
@@ -38,8 +38,31 @@ public class UserService implements OAuth2User, UserDetails {
 
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
-		return getUsername();
+		return getEmail();
 	}
-
+	
+	public String getEmail() {
+        return auth2User.<String>getAttribute("email");
+    }
+	
+	@Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+	
+	@Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+	
+	@Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+	
+	@Override
+    public boolean isEnabled() {
+        return true;
+    }
+	
 }
